@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
+var USE_WIREFRAME = false;
+
 // color car
 const COLOR_GLASS = 0x1a2425;
 const COLOR_CASE = 0x78b14b;
@@ -55,6 +57,13 @@ renderer.render(scene, camera);
 new OrbitControls(camera, renderer.domElement)
 document.body.appendChild(renderer.domElement);
 
+const meshFloor = new THREE.Mesh(
+  new THREE.PlaneGeometry(500,500, 500,500),
+  new THREE.MeshBasicMaterial({color:0x33333a, wireframe: USE_WIREFRAME})
+);
+meshFloor.rotation.x -= Math.PI / 2; // Rotate the floor 90 degrees
+scene.add(meshFloor);
+
 function createWheels() {
     const geometry = new THREE.BoxBufferGeometry(12, 12, 5);
     const material = new THREE.MeshLambertMaterial({ color: COLOR_WHEELS });
@@ -107,21 +116,21 @@ function createCar() {
   frontGlass.position.x = 10.5;
   frontGlass.position.y = 24.5;
   frontGlass.position.z = 0;
-  frontGlass.rotation.y = 4.72;
+  frontGlass.rotation.y = Math.PI / 2;
   car.add(frontGlass);
 
   const frontLeftLED = createFrontLED();
   frontLeftLED.position.x = 30.5;
   frontLeftLED.position.y = 10.5;
   frontLeftLED.position.z = 10;
-  frontLeftLED.rotation.y = 4.72;
+  frontLeftLED.rotation.y = Math.PI / 2;
   car.add(frontLeftLED);
 
   const frontRightLED = createFrontLED();
   frontRightLED.position.x = 30.5;
   frontRightLED.position.y = 10.5;
   frontRightLED.position.z = -10;
-  frontRightLED.rotation.y = 4.72;
+  frontRightLED.rotation.y = Math.PI / 2;;
   car.add(frontRightLED);
 
 
@@ -129,7 +138,7 @@ function createCar() {
   backGlass.position.x = -22.5;
   backGlass.position.y = 24.5;
   backGlass.position.z = 0;
-  backGlass.rotation.y = 4.72;
+  backGlass.rotation.y = Math.PI / 2;;
   car.add(backGlass);
 
   const sideFL = new THREE.Mesh(
